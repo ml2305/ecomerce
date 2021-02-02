@@ -1,21 +1,52 @@
 import { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { Card, ListGroup, Form, Container, Row, Col } from 'react-bootstrap';
 import React from 'react-router-dom';
 import './Ecommerce.css';
 import useHttp from './Hooks/useHttp';
+=======
+import React from 'react-router-dom';
+import axios from 'axios';
+import './Ecommerce.css';
+>>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
 import Pagination from './Pagination';
 
 const Ecommerce = (props) => {
 
+<<<<<<< HEAD
     const [products, fetchProducts] = useHttp('/products');
     const [brands, fetchBrands] = useHttp('/brands');
+=======
+    const [products, setProducts] = useState();
+>>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
     const [currPage, setCurrPage] = useState(1);
     const [productsPerPage, setProductsPerPage] = useState(9);
     const [brandNames, setBrandNames] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState();
+<<<<<<< HEAD
     const [sort, setSort] = useState();
     const [totalProducts, setTotalProducts] = useState();
 
+=======
+    const [brands, setBrands] = useState();
+    const [sort, setSort] = useState();
+    const [totalProducts, setTotalProducts] = useState();
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/products')
+            .then(response => {
+                setProducts(response.data);
+            })
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/brands')
+            .then(response => {
+                setBrands(response.data);
+            })
+    }, [])
+
+>>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
     const handlePrevious = () => {
         if (currPage !== 1) {
             setCurrPage(currPage - 1);
@@ -89,6 +120,7 @@ const Ecommerce = (props) => {
         <div>
             <main className="wrapper">
                 <div>
+<<<<<<< HEAD
                 <Card style={{ width: "18rem" }}>
                     <Card.Header>Brands</Card.Header>
                     <ListGroup variant="flush">
@@ -121,6 +153,41 @@ const Ecommerce = (props) => {
                         <Col sm={2}><button onClick={() => changeLayout(4)}>4 in row</button></Col>
                     </Row>
                     <Row>
+=======
+                <div className="card" style={{ width: "18rem" }}>
+                    <div className="card-header">Brands</div>
+                    <ul className="list-group list-group-flush">
+                    
+                        {brands ? brands.map(brand => {
+                            return <li key={brand.id} className="list-group-item">
+                                <input type="checkbox" name="brand" onChange={() => {filterByBrand(brand.name)}}/>{brand.name}
+                            </li>;
+                        }) : null}
+
+                    </ul>
+                </div>
+                <div className="card" style={{ width: "18rem" }}>
+                    <div className="card-header">Price</div>
+                    <ul className="list-group list-group-flush">
+                        <li className="list-group-item">
+                            <input type="radio" name="price" onChange={() => sortByPrice("Low to high")}/>Low to high
+                        </li>
+                        <li className="list-group-item">
+                            <input type="radio" name="price" onChange={() => sortByPrice("High to low")}/>High to low
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                {filteredProducts ?
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-5"></div>
+                        <div className="col-sm-3">Change Layout</div>
+                        <div className="col-sm-2"><button onClick={() => changeLayout(3)}>3 in row</button></div>
+                        <div className="col-sm-2"><button onClick={() => changeLayout(4)}>4 in row</button></div>
+                    </div>
+                    <div className="row">
+>>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
                         {filteredProducts.map(product => {
                             return (
                                 <div key={product.id} className={productsPerPage === 9 ? "card col-4" : "card col-3"} onClick={() => { goToProduct(product.id) }}>
@@ -133,8 +200,13 @@ const Ecommerce = (props) => {
                                 </div>
                             );
                         })}
+<<<<<<< HEAD
                     </Row>
                 </Container>
+=======
+                    </div>
+                </div>
+>>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
                     : null}
             </main>
             {filteredProducts?
