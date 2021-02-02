@@ -1,8 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import PropTypes from 'prop-types';
-=======
->>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
 
 const Pagination = ({productsPerPage, totalProducts, paginate, handlePrevious, handleNext}) => {
     const pageNumbers = [];
@@ -25,7 +22,6 @@ const Pagination = ({productsPerPage, totalProducts, paginate, handlePrevious, h
     );
 }
 
-<<<<<<< HEAD
 Pagination.propTypes = {
     productsPerPage : PropTypes.number,
     totalProducts : PropTypes.number,
@@ -34,6 +30,4 @@ Pagination.propTypes = {
     handleNext : PropTypes.func
 }
 
-=======
->>>>>>> 8fae074a18eb002d814af1da65e1d401d4c4f0c4
 export default Pagination;
