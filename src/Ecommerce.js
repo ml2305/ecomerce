@@ -36,8 +36,7 @@ const Ecommerce = (props) => {
             let filteredBrands = newProducts;
             if(brandNames.length !== 0){
                 filteredBrands = newProducts.filter(product => {
-                    return brandNames.findIndex(brand => brand === product.brand.name) !== -1;
-                    
+                    return brandNames.find(brand => brand === product.brand.name);
                 })
             };
             if(sort && sort === "Low to high") {
@@ -56,13 +55,10 @@ const Ecommerce = (props) => {
     }
 
     const filterByBrand = (name) => {
-    
         const index = brandNames.findIndex(brand => brand === name);
         let newBrands;
         if(index === -1){
-            newBrands = [...brandNames];
-            newBrands.push(name);
-            setBrandNames(newBrands);
+            setBrandNames([...brandNames, name]);
         }
         else {
             newBrands = [...brandNames]; 
@@ -71,7 +67,6 @@ const Ecommerce = (props) => {
             });
             setBrandNames(newBrands);
         };
-
         setCurrPage(1);
     }
 
@@ -121,8 +116,7 @@ const Ecommerce = (props) => {
                         <Col sm={2}><button onClick={() => changeLayout(4)}>4 in row</button></Col>
                     </Row>
                     <Row>
-                        {filteredProducts.map(product => {
-                            return (
+                        {filteredProducts.map(product => (
                                 <div key={product.id} className={productsPerPage === 9 ? "card col-4" : "card col-3"} onClick={() => { goToProduct(product.id) }}>
                                     <img className="card-img-top" src={product.imageUrl} alt="Card image" />
                                     <div className="card-body">
@@ -130,9 +124,8 @@ const Ecommerce = (props) => {
                                         <p className="card-text">${product.price}</p>
                                         <p className="card-text">{product.description}</p>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                </div>)
+                        )}
                     </Row>
                 </Container>
                     : null}

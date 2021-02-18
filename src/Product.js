@@ -43,7 +43,7 @@ const Product = (props) => {
                                         <div className="px-3">{cart[display].amount}</div>
                                         <div className="btn-group-vertical">
                                             <Button onClick={() => dispatch({type: 'increaseAmount', idToIncrease: product.id})} variant="btn p-0">+</Button>
-                                            <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0">-</Button>
+                                            <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0" disabled={cart[display].amount === 1}>-</Button>
                                         </div>
                                     </div>
                                 </>}

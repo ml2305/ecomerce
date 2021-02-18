@@ -58,7 +58,7 @@ const Cart = () => {
                                     <div className="px-3">{product.amount}</div>
                                     <div className="btn-group-vertical">
                                         <Button onClick={() => dispatch({type: 'increaseAmount', idToIncrease: product.id})} variant="btn p-0">+</Button>
-                                        <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0">-</Button>
+                                        <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0" disabled={product.amount === 1}>-</Button>
                                     </div>
                                 </div>
                             </Col>
@@ -75,7 +75,7 @@ const Cart = () => {
         </Card>
         <Button className="OrderButton"
             disabled={cart.length === 0}
-            onClick={() => orderCart()}>Order</Button>
+            onClick={orderCart}>Order</Button>
         </div>
     );
 }
