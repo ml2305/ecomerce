@@ -3,12 +3,12 @@ import { useSelector, useDispatch} from 'react-redux';
 import Modal from './UI/Modal';
 import './Cart.css';
 import { BsFillTrashFill } from "react-icons/bs";
-import useHttp from './Hooks/useHttp';
-import { Card, Col, Row, Button } from 'react-bootstrap';
+import usePostOrder from './Hooks/usePostOrder';
+import { Card, Col, Row, Button, Spinner } from 'react-bootstrap';
 
 const Cart = () => {
 
-    const [order, fetchOrder] = useHttp();
+    const [order, fetchOrder] = usePostOrder();
     const cart = useSelector(state => state.cart);
     const totalPrice = useSelector(state => state.totalPrice);
     const dispatch = useDispatch();
@@ -16,14 +16,13 @@ const Cart = () => {
     
 
     const orderCart = () => {
-        let order = cart.map(product => {
-            return {
+        let order = cart.map(product => ({
                 id: product.id,
                 amount: product.amount
-            }
-        });
+            })
+        );
         setOrdering(true);
-        fetchOrder('/order', 'post', {products: order});
+        fetchOrder('/order', {products: order});
         dispatch({type: 'clearCart'});
 
     }
@@ -34,15 +33,14 @@ const Cart = () => {
     
     return (
         <div>
-            <Modal show={ordering && order} onOk={onModal}>
-                {order}
+            <Modal show={ordering && typeof order.data !== 'undefined'} onOk={onModal}>
+                {order.data}
             </Modal>
         <Card>
             <Card.Header>Shipping Cart</Card.Header>
             <Card.Body>
-                {cart.map(product => {
-                    return (
-                        <Row>
+                {cart.map(product => (
+                        <Row key={`item_${product.id}`}>
                             <Col sm={2}>
                                 <img src={product.imageUrl} style={{height: '150px', width: '150px', margin: '12px'}} />
                             </Col>
@@ -66,16 +64,27 @@ const Cart = () => {
                                 <Button onClick={() => dispatch({type: 'removeProduct', id: product.id})} className="btn btn-danger"><BsFillTrashFill/>Remove</Button>
                             </Col>
                         </Row>
-                    );
-                })}
+                    )
+                )}
             </Card.Body>
             <Card.Footer className="text-muted">
                 Total Price: <strong>{totalPrice.toFixed(2)}</strong>
             </Card.Footer>
         </Card>
+        {!order.loading?
         <Button className="OrderButton"
-            disabled={cart.length === 0}
-            onClick={orderCart}>Order</Button>
+        disabled={cart.length === 0}
+        onClick={orderCart}>Order</Button>:
+        <Button variant="primary" disabled>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                Loading...
+                </Button>}      
         </div>
     );
 }

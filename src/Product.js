@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { BsFillTrashFill } from "react-icons/bs";
 import { FaShoppingCart } from 'react-icons/fa';
 import useHttp from './Hooks/useHttp';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Spinner } from 'react-bootstrap';
 
 
 const Product = (props) => {
@@ -52,7 +52,9 @@ const Product = (props) => {
                     </div>
                 </Card>
             </div>
-            : null}
+            : <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>}
         </div>
     );
 

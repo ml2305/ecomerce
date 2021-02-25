@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, ListGroup, Form, Container, Row, Col } from 'react-bootstrap';
+import { Card, ListGroup, Form, Container, Row, Col, Spinner } from 'react-bootstrap';
 import React from 'react-router-dom';
 import './Ecommerce.css';
 import useHttp from './Hooks/useHttp';
@@ -84,18 +84,20 @@ const Ecommerce = (props) => {
         <div>
             <main className="wrapper">
                 <div>
-                <Card style={{ width: "18rem" }}>
+                <Card className="sidebar">
                     <Card.Header>Brands</Card.Header>
                     <ListGroup variant="flush">
                         {brands ? brands.map(brand => {
-                            return <ListGroup.Item key={brand.id} className="list-group-item">
+                            return <ListGroup.Item key={`brand_${brand.id}`} >
                                 <Form.Check type="checkbox" name="brand" onChange={() => {filterByBrand(brand.name)}} label={brand.name}/>
                             </ListGroup.Item>;
-                        }) : null}
+                        }) : <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>}
 
                     </ListGroup>
                 </Card>
-                <Card style={{ width: "18rem" }}>
+                <Card className="sidebar">
                     <Card.Header>Price</Card.Header>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
@@ -117,7 +119,7 @@ const Ecommerce = (props) => {
                     </Row>
                     <Row>
                         {filteredProducts.map(product => (
-                                <div key={product.id} className={productsPerPage === 9 ? "card col-4" : "card col-3"} onClick={() => { goToProduct(product.id) }}>
+                                <div key={`product_${product.id}`} className={productsPerPage === 9 ? "card col-4" : "card col-3"} onClick={() => { goToProduct(product.id) }}>
                                     <img className="card-img-top" src={product.imageUrl} alt="Card image" />
                                     <div className="card-body">
                                         <h5 className="card-title">{product.name}</h5>
@@ -128,7 +130,9 @@ const Ecommerce = (props) => {
                         )}
                     </Row>
                 </Container>
-                    : null}
+                    : <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>}
             </main>
             {filteredProducts?
                  <Pagination productsPerPage={productsPerPage} totalProducts={totalProducts} paginate={paginate} handlePrevious={handlePrevious} handleNext={handleNext}/>
