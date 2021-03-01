@@ -1,28 +1,28 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useHttp = (url) => {
+const useBrands = (url) => {
 
-    const [data, setData] = useState();
+    const [brands, setBrands] = useState();
 
-    const fetchData = (path) => {
+    const fetchBrands = (path) => {
         axios.get(process.env.REACT_APP_HTTP + path)
             .then(res => {
-                setData(res.data);
+                setBrands(res.data);
             })
             .catch(() => {
-                setData('An error has occured, please reload');
+                setBrands('An error has occured, please reload');
             });
     }
 
     useEffect(() => {
         if (url) {
-            fetchData(url);
+            fetchBrands(url);
         }
     }, []);
 
-    return [data, fetchData];
+    return [brands];
 
 }
 
-export default useHttp;
+export default useBrands;

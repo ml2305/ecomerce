@@ -2,8 +2,7 @@ import React from 'react';
 import './Layout.css';
 import Toolbar from '../Toolbar/Toolbar';
 
-const Layout = (props) => {
-    return (
+const Layout = (props) => (
         <div>
             <Toolbar />
             <main className='Content'>
@@ -11,6 +10,6 @@ const Layout = (props) => {
             </main>
         </div>
     );
-}
+
 
 export default Layout;

@@ -2,8 +2,9 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BsFillTrashFill } from "react-icons/bs";
 import { FaShoppingCart } from 'react-icons/fa';
-import useHttp from './Hooks/useHttp';
+import useProducts from './Hooks/useProducts';
 import { Card, Button, Spinner } from 'react-bootstrap';
+import * as actions from './consts/types';
 
 
 const Product = (props) => {
@@ -11,7 +12,7 @@ const Product = (props) => {
     const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
-    const [product, fetchProduct] = useHttp('/products/' + props.match.params.id);
+    const [product] = useProducts('/products/' + props.match.params.id);
     const display = product && cart.findIndex(val => val.id === product.id);
     
     return (
@@ -36,14 +37,14 @@ const Product = (props) => {
                                 <Card.Text><strong>Display: </strong>{product.display}</Card.Text>
                                 <Card.Text><strong>Battery: </strong>{product.battery}</Card.Text>
                                 {display === -1 ? 
-                                <Button variant="success" onClick={() => dispatch({ type: 'addProduct', id: product.id, name: product.name, price: product.price, description: product.description, brandId: product.brand.id, brandName: product.brand.name, size: product.size, camera: product.camera, cpu: product.cpu, memory: product.memory, display: product.display, battery: product.battery, imageUrl: product.imageUrl })}><FaShoppingCart/>add to cart</Button> :
+                                <Button variant="success" onClick={() => dispatch({ type: actions.ADD_PRODUCT, product })}><FaShoppingCart/>add to cart</Button> :
                                 <>
-                                    <Button variant="danger" onClick={() => dispatch({type: 'removeProduct', id: product.id})}><BsFillTrashFill/>Remove from cart</Button>
+                                    <Button variant="danger" onClick={() => dispatch({type: actions.REMOVE_PRODUCT, id: product.id})}><BsFillTrashFill/>Remove from cart</Button>
                                     <div className="btn-group align-items-center ml-3">
                                         <div className="px-3">{cart[display].amount}</div>
                                         <div className="btn-group-vertical">
-                                            <Button onClick={() => dispatch({type: 'increaseAmount', idToIncrease: product.id})} variant="btn p-0">+</Button>
-                                            <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0" disabled={cart[display].amount === 1}>-</Button>
+                                            <Button onClick={() => dispatch({type: actions.INCREASE_AMOUNT, idToIncrease: product.id})} variant="btn p-0">+</Button>
+                                            <Button onClick={() => dispatch({type: actions.DECREASE_AMOUNT, idToDecrease: product.id})} variant="btn p-0" disabled={cart[display].amount === 1}>-</Button>
                                         </div>
                                     </div>
                                 </>}

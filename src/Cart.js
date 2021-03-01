@@ -5,6 +5,7 @@ import './Cart.css';
 import { BsFillTrashFill } from "react-icons/bs";
 import usePostOrder from './Hooks/usePostOrder';
 import { Card, Col, Row, Button, Spinner } from 'react-bootstrap';
+import * as actions from './consts/types';
 
 const Cart = () => {
 
@@ -16,14 +17,14 @@ const Cart = () => {
     
 
     const orderCart = () => {
-        let order = cart.map(product => ({
+        const order = cart.map(product => ({
                 id: product.id,
                 amount: product.amount
             })
         );
         setOrdering(true);
         fetchOrder('/order', {products: order});
-        dispatch({type: 'clearCart'});
+        dispatch({type: actions.CLEAR_CART});
 
     }
 
@@ -55,13 +56,13 @@ const Cart = () => {
                                 <div className="btn-group align-items-center" >
                                     <div className="px-3">{product.amount}</div>
                                     <div className="btn-group-vertical">
-                                        <Button onClick={() => dispatch({type: 'increaseAmount', idToIncrease: product.id})} variant="btn p-0">+</Button>
-                                        <Button onClick={() => dispatch({type: 'decreaseAmount', idToDecrease: product.id})} variant="btn p-0" disabled={product.amount === 1}>-</Button>
+                                        <Button onClick={() => dispatch({type: actions.INCREASE_AMOUNT, idToIncrease: product.id})} variant="btn p-0">+</Button>
+                                        <Button onClick={() => dispatch({type: actions.DECREASE_AMOUNT, idToDecrease: product.id})} variant="btn p-0" disabled={product.amount === 1}>-</Button>
                                     </div>
                                 </div>
                             </Col>
                             <Col sm={1}>
-                                <Button onClick={() => dispatch({type: 'removeProduct', id: product.id})} className="btn btn-danger"><BsFillTrashFill/>Remove</Button>
+                                <Button onClick={() => dispatch({type: actions.REMOVE_PRODUCT, id: product.id})} className="btn btn-danger"><BsFillTrashFill/>Remove</Button>
                             </Col>
                         </Row>
                     )

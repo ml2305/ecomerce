@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { Card, ListGroup, Form, Container, Row, Col, Spinner } from 'react-bootstrap';
 import React from 'react-router-dom';
 import './Ecommerce.css';
-import useHttp from './Hooks/useHttp';
+import useProducts from './Hooks/useProducts';
+import useBrands from './Hooks/useBrands';
 import Pagination from './Pagination';
+import * as sorts from './consts/sorts';
 
 const Ecommerce = (props) => {
 
-    const [products, fetchProducts] = useHttp('/products');
-    const [brands, fetchBrands] = useHttp('/brands');
+    const [products] = useProducts('/products');
+    const [brands] = useBrands('/brands');
     const [currPage, setCurrPage] = useState(1);
     const [productsPerPage, setProductsPerPage] = useState(9);
     const [brandNames, setBrandNames] = useState([]);
@@ -39,9 +41,9 @@ const Ecommerce = (props) => {
                     return brandNames.find(brand => brand === product.brand.name);
                 })
             };
-            if(sort && sort === "Low to high") {
+            if(sort && sort === sorts.LTH) {
                 filteredBrands.sort((a, b) => {return a.price - b.price});
-            } else if(sort === "High to low") {
+            } else if(sort === sorts.HTL) {
                 filteredBrands.sort((a, b) => {return b.price - a.price});
             };
             setTotalProducts(filteredBrands.length);
@@ -89,7 +91,7 @@ const Ecommerce = (props) => {
                     <ListGroup variant="flush">
                         {brands ? brands.map(brand => {
                             return <ListGroup.Item key={`brand_${brand.id}`} >
-                                <Form.Check type="checkbox" name="brand" onChange={() => {filterByBrand(brand.name)}} label={brand.name}/>
+                                <Form.Check type="checkbox" name="brand" onChange={() => filterByBrand(brand.name)} label={brand.name}/>
                             </ListGroup.Item>;
                         }) : <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
@@ -101,10 +103,10 @@ const Ecommerce = (props) => {
                     <Card.Header>Price</Card.Header>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <Form.Check type="radio" name="price" onChange={() => sortByPrice("Low to high")} label="Low to high"/>
+                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.LTH)} label="Low to high"/>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Form.Check type="radio" name="price" onChange={() => sortByPrice("High to low")} label="High to low"/>
+                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.HTL)} label="High to low"/>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>

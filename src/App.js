@@ -6,8 +6,7 @@ import Product from './Product';
 import Ecommerce from './Ecommerce';
 import Cart from './Cart';
 
-function App() {
-  return (
+const App = () => (
     <div className="App">
       <Layout>
         <Switch>
@@ -18,6 +17,6 @@ function App() {
       </Layout>
     </div>
   );
-}
+
 
 export default App;
