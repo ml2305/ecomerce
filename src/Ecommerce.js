@@ -41,9 +41,9 @@ const Ecommerce = (props) => {
                     return brandNames.find(brand => brand === product.brand.name);
                 })
             };
-            if(sort && sort === sorts.LTH) {
+            if(sort && sort === sorts.LOW_TO_HIGH) {
                 filteredBrands.sort((a, b) => {return a.price - b.price});
-            } else if(sort === sorts.HTL) {
+            } else if(sort === sorts.HIGH_TO__LOW) {
                 filteredBrands.sort((a, b) => {return b.price - a.price});
             };
             setTotalProducts(filteredBrands.length);
@@ -103,10 +103,10 @@ const Ecommerce = (props) => {
                     <Card.Header>Price</Card.Header>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.LTH)} label="Low to high"/>
+                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.LOW_TO_HIGH)} label="Low to high"/>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.HTL)} label="High to low"/>
+                            <Form.Check type="radio" name="price" onChange={() => sortByPrice(sorts.HIGH_TO__LOW)} label="High to low"/>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>

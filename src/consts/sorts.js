@@ -1,2 +1,2 @@
-export const HTL = "High to low";
-export const LTH = "Low to high";
+export const HIGH_TO__LOW = "HTL";
+export const LOW_TO_HIGH = "LTH";

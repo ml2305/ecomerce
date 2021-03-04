@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Pagination = ({productsPerPage, totalProducts, paginate, handlePrevious, handleNext}) => {
-    const pageNumbers = [];
-    for(let i = 1; i <= Math.ceil(totalProducts/productsPerPage); i++){
-        pageNumbers.push(i);
-    }
+    const pageNumbers = [...Array(Math.ceil(totalProducts/productsPerPage)).keys()].map(value => value + 1);
 
     return (
         <nav aria-label="Page navigation example">

@@ -7,11 +7,9 @@ const initialState = {
 
 const addProduct = (state, action) => {
     const newProduct = {
-        id: action.product.id, name: action.product.name, price: action.product.price, description: action.product.description,
-        brand: { id: action.product.brand.id, name: action.product.brand.name }, size: action.product.size, camera: action.product.camera,
-        cpu: action.product.cpu, memory: action.product.memory, display: action.product.display, battery: action.product.battery, imageUrl: action.product.imageUrl, amount: 1
+        ...action.product, amount: 1
     };
-    let newCart = [...state.cart];
+    const newCart = [...state.cart];
     const addedPrice = newProduct.price * newProduct.amount;
     newCart.push(newProduct);
     return { ...state, cart: newCart, totalPrice: state.totalPrice + addedPrice };
@@ -21,12 +19,12 @@ const removeProduct = (state, action) => {
     let filteredCart = [...state.cart];
     const indexProduct = filteredCart.findIndex(product => product.id === action.id);
     const reducedPrice = filteredCart[indexProduct].price * filteredCart[indexProduct].amount;
-    filteredCart = filteredCart.filter(product => product.id != action.id);
+    filteredCart = filteredCart.filter(product => product.id !== action.id);
     return { ...state, cart: filteredCart, totalPrice: state.totalPrice - reducedPrice };
 }
 
 const increaseAmount = (state, action) => {
-    let increasedCart = [...state.cart];
+    const increasedCart = [...state.cart];
     const indexIncreased = increasedCart.findIndex(product => product.id === action.idToIncrease);
     increasedCart[indexIncreased].amount++;
     const increasedPrice = increasedCart[indexIncreased].price;
@@ -34,7 +32,7 @@ const increaseAmount = (state, action) => {
 }
 
 const decreaseAmount = (state, action) => {
-    let decreasedCart = [...state.cart];
+    const decreasedCart = [...state.cart];
     const indexDecreased = decreasedCart.findIndex(product => product.id === action.idToDecrease);
     let decreasedPrice = 0;
     if (decreasedCart[indexDecreased].amount > 1) {

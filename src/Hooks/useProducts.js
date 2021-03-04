@@ -11,7 +11,7 @@ const useProducts = (url) => {
                 setProducts(res.data);
             })
             .catch(() => {
-                setProducts('An error has occured, please reload');
+                alert('An error has occured, please reload');
             });
     }
 

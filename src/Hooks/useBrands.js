@@ -11,7 +11,7 @@ const useBrands = (url) => {
                 setBrands(res.data);
             })
             .catch(() => {
-                setBrands('An error has occured, please reload');
+                alert('An error has occured, please reload');
             });
     }
 
